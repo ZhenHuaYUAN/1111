@@ -1,0 +1,40 @@
+
+body{
+	margin: 0px;
+	background-color: #f1f1f1;
+}
+
+/* 左 */
+#left{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 200px;
+	z-index: 100;
+	box-shadow: 1px 0px 3px #aaa ;
+	background-color: #f8f8f8;
+}
+
+/* 主客户区 */
+#client{				
+	margin-left: 200px;
+	margin-top: 0px;
+	padding: 20px;
+}
+
+/* 内容区 */
+#container{	
+				
+}
+
+/* 中间子页面定义 , 可以被覆盖 */
+.main{
+	width: 100%;
+	min-height: 500px;
+	box-sizing: border-box;
+	padding: 20px;
+	
+	background-color: #fff;	
+	border-radius: 1px;
+}

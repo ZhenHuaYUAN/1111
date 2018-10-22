@@ -1,0 +1,108 @@
+
+<style>
+	/* 左上logo区*/
+	.logo{
+		background-color: #188AE2;
+		color: #fff;
+		text-align: center;
+		font-size: 18px;
+		padding: 20px 0px;
+	}
+	/* 左下广告区 */
+	.advertise{
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		width: 100%;
+		
+		padding: 10px 0px;
+		border-top: 1px solid #aaa;
+		background-color: #f1f1f1;
+	}
+	.advertise div {
+		text-align: center;
+		margin: 4px;
+		font-size: 14px;
+	}
+	
+	/* 菜单栏 */
+	.menubar{
+		padding: 20px;
+	}
+	
+	.menubar .menu{
+		margin: 20px;
+		text-align: center;
+		font-size: 14px;
+		color: #444;
+		border:1px  dotted #0000;
+		border-radius: 1px;
+		padding: 4px;
+		cursor: default;
+		-webkit-user-select: none;
+    	-moz-user-select: none;
+    	user-select: none; /* 禁止用户选择 */
+	}
+	.menubar .menu:hover{
+		border:1px  dotted #ccc;
+	}	
+	.menubar .active
+	{
+		background-color: #188AE2;
+		color: #fff;
+	}	
+</style>
+
+<div class='logo' > 学生管理系统 </div>
+
+<div class='menubar'>	
+	<div class='menu' page='list.html'> 查看全部 </div>	
+	<div class='menu' page='add.html'> 新增 </div>	
+</div>
+
+<div class='advertise'> 
+	<div > 阿发你好出品  </div>
+	<div > <a href='http://afanihao.cn'> http://afanihao.cn </a> </div>
+</div>
+
+
+<script>
+
+	/* 选中并打开相应的锚点 */
+	function showPage(page)
+	{
+		// 找到锚点对应的菜单项
+		var menu = $(".menubar [page='" + page + "']" );
+
+		if( ! menu.hasClass('active') ) 
+		{
+			$('.menubar .active').removeClass('active');
+			menu.addClass('active');
+			
+			var page = menu.attr('page');			
+			Af.loadPage("#container", page);
+			window.location.hash = "#" + page; // 修改当前地址栏的锚点
+		}	
+	}
+
+	// 为所有menu元素添加点击事件
+	$('.menubar .menu').click( function(){		
+		var page = $(this).attr('page');
+		showPage (page); // 点击时, 加载相应的子页面	
+	});
+	
+	// 自动加载锚点
+	if(location.hash != null && location.hash.length>0)
+	{
+		var page = location.hash.substr(1); //从浏览器的地址栏取出hash，并去掉#号
+		showPage (page );			
+	}
+	else
+	{
+		showPage ("list.html" ); // 默认加载list.html
+	}
+	
+	
+	
+	//# sourceURL=leftmenu.js
+</script>

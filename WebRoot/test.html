@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/jquery.min.js" ></script>
+		<script type="text/javascript" src="js/afquery.js" ></script>
+		
+	</head>
+	<body>
+		<div class='main'>
+			<div> 书名: {#title} </div>
+			<div> 作者: {#author} </div>
+			<div> ISBN: {#isbn} </div>
+			<div> 出版社: {#press} </div>
+		</div>
+		
+		<button onclick='test()'>  AfTemplate 测试</button>
+		
+	</body>
+	
+	<script>
+		function test()
+		{
+			// 模板字符串, 要替代的变量 {#xxx} 格式
+			var templStr = $('.main').html();
+			
+			// 模板工具
+			var templ = new AfTemplate(templStr);
+			
+			// 准备好数据
+			var data = {
+				title: 'C/C++学习指南(语法篇)' ,
+				author: '邵发' ,
+				isbn: '9787302419891',
+				press: '清华大学出版社'
+			};
+			
+			// 替换 '模板' + '数据' => 最终HTML文本
+			var content = templ.replace(data);
+			
+			$('.main').html(content);
+		}
+		
+	</script>
+</html>

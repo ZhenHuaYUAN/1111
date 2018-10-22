@@ -1,0 +1,157 @@
+
+
+<style>
+
+	/* 工具按钮区 */
+	.main .toolbar
+	{
+		margin:  10px 0px;
+	}
+	
+	.main .submit{
+		background-color: #188AE2;
+		min-width: 80px;
+		border: 1px solid #eee;
+		padding: 4px;
+		border-radius: 2px;
+		color: #fff;
+	}
+		
+	/* 数据区 */
+	.main .content{
+		width: 500px;
+	}
+	/* 无数据时的提示 */
+	.main .content .empty{
+		text-align: center;
+		padding: 4px;
+		display: block;
+		border: 0px solid #888;
+		border-width: 0px 1px 1px 1px;				
+	}
+	.main .table{
+		width: 100%;
+	}
+	/* 列宽设定 */
+	.main .table .c1{ width: 80px; }
+	.main .table .c2{ width: 120px; }
+	.main .table .c3{ width: 40px; }
+	.main .table .c4{ width: 160px; }
+	
+</style>
+
+<div class='main'>
+	<div class='toolbar'>
+		<!-- 查询姓名查询 -->
+		<input type='text' class='filter' placeholder="姓名查询"  />				
+		<button class='submit' onclick='M.query()'> 查询 </button>
+	</div>
+	
+	<div class='content'>
+		<table class='table'>
+			<thead>
+				<tr>
+					<th class='c1'> 学号 </th>
+					<th class='c2'> 姓名 </th>
+					<th class='c3'> 性别 </th>
+					<th class='c4'> 手机号 </th>
+					<th class='c5'> - </th>
+				</tr>
+			</thead>
+			<tbody>						
+			</tbody>
+			
+			<tfoot class='template' style='display: none;'>
+				<!-- 这个tr 作为模板使用 -->
+				<tr>
+					<td> {#id} </td>
+					<td> {#name} </td>
+					<td> {#sex2} </td>
+					<td> {#phone}</td>
+					<td> 
+						<button data='{#id}' onclick='M.doRemove(this)'> 删除 </button>								
+					</td>
+				</tr>						
+			</tfoot>
+		</table>
+		<!-- 无数据时才显示这个提示 -->
+		<div class='empty'>
+			没有数据
+		</div>
+	
+	</div>
+	
+</div>
+	
+<script>
+	var M = {};
+	
+	// 初始化
+	M.init = function()
+	{
+		M.reload();
+	}
+	
+	// 加载全部
+	M.reload = function()
+	{
+		// 请求参数
+		var req = {};
+		Af.rest("StudentList", req, function(data){
+			M.showResult(data);
+		});
+	}
+	
+	// 条件查询
+	M.query = function()
+	{
+		var req = {};
+		req.filter = $('.toolbar .filter').val().trim();
+		
+		Af.rest("StudentQuery", req, function(data){
+			M.showResult(data);
+		});
+	}
+
+	
+	// 格式化数据并显示
+	M.showResult = function(data)
+	{
+		// 创建一个 AfTemplate对象用于替换
+		var templ = new AfTemplate( $('.template').html());
+		
+		var target = $(".main .content tbody");
+		target.html(""); // 清空
+		for(var row of data)
+		{
+			row.sex2 = row.sex?'男': '女'; // 准备好数据
+			var str = templ.replace(row); // 使用模板替换
+			target.append( str );
+		}
+		
+		// 如果没有数据，则把下面的提示显示出来
+		if(data.length > 0) 
+			$(".main .content .empty").hide();
+		else 
+			$(".main .content .empty").show();
+	}
+	
+	// e : DOM元素对象，即被点击的按钮
+	M.doRemove = function( e )
+	{
+		var req = {};
+		req.id = $(e).attr("data"); // 取得'data'属性
+		Af.rest("StudentRemove", req, function(data){				
+			// 删除该行
+			$(e).parent().parent().remove();
+			
+			alert("删除成功!");
+			
+		})
+	}
+
+	M.init();
+	
+	
+</script>
+

@@ -1,0 +1,20 @@
+
+body{
+	margin: 0px;
+	padding: 0px;
+}
+
+/* 表格样式 */
+table{
+	border-collapse: collapse; /* 边线收缩 */
+	table-layout: fixed ;  /* 自动布局还是固定宽度 */
+	word-break: break-all; /* 换行设定 */
+	word-wrap:break-word;  /* 换行折断设定 */
+}
+
+/* 逗号表示同时指定多个目标的样式 */
+table,td,th{
+	border: 1px solid #888;
+	text-align: center;
+}
+
